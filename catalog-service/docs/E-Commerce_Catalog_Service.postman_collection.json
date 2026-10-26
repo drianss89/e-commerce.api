@@ -1,0 +1,272 @@
+{
+  "info": {
+    "_postman_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "name": "E-Commerce Catalog Service API",
+    "description": "Dokumentasi lengkap REST API untuk layanan katalog produk e-commerce.\n\n**Base URL:** `http://localhost:3000`\n\n**Tech Stack:**\n- Node.js + Express.js\n- MySQL (XAMPP)\n\n**Cara pakai:**\n1. Pastikan XAMPP MySQL sudah running\n2. Jalankan server: `node src/index.js`\n3. Gunakan variable `{{base_url}}` untuk base URL",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "product_id",
+      "value": "prod_001",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Products",
+      "description": "Semua endpoint untuk manajemen produk katalog",
+      "item": [
+        {
+          "name": "Get All Products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/products",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "products"]
+            },
+            "description": "Mengambil seluruh daftar produk yang tersedia di katalog beserta semua variasinya."
+          },
+          "response": [
+            {
+              "name": "200 OK - Daftar produk berhasil dimuat",
+              "status": "OK",
+              "code": 200,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"success\": true,\n  \"status_code\": 200,\n  \"message\": \"Daftar produk berhasil dimuat\",\n  \"total\": 8,\n  \"data\": [\n    {\n      \"id\": \"prod_001\",\n      \"nama_product\": \"Kaos Polos Cotton Combed 30s\",\n      \"harga_product\": 75000,\n      \"foto_product\": \"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500\",\n      \"variasi_product\": [\n        { \"id\": 1, \"warna\": \"Hitam\", \"ukuran\": \"S\", \"quantity\": 30 },\n        { \"id\": 2, \"warna\": \"Hitam\", \"ukuran\": \"M\", \"quantity\": 25 }\n      ],\n      \"deskripsi\": \"Kaos polos berbahan 100% cotton combed 30s yang nyaman, adem, dan menyerap keringat dengan baik.\"\n    }\n  ]\n}",
+              "_postman_previewlanguage": "json"
+            }
+          ]
+        },
+        {
+          "name": "Get Product By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/products/{{product_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "products", "{{product_id}}"]
+            },
+            "description": "Mengambil detail satu produk berdasarkan ID. Gunakan variable `{{product_id}}` atau ganti langsung di URL.\n\n**Contoh ID yang tersedia:** `prod_001` s/d `prod_008`"
+          },
+          "response": [
+            {
+              "name": "200 OK - Detail produk ditemukan",
+              "status": "OK",
+              "code": 200,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"success\": true,\n  \"status_code\": 200,\n  \"message\": \"Detail produk berhasil dimuat\",\n  \"data\": {\n    \"id\": \"prod_001\",\n    \"nama_product\": \"Kaos Polos Cotton Combed 30s\",\n    \"harga_product\": 75000,\n    \"foto_product\": \"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500\",\n    \"variasi_product\": [\n      { \"id\": 1, \"warna\": \"Hitam\", \"ukuran\": \"S\", \"quantity\": 30 },\n      { \"id\": 2, \"warna\": \"Hitam\", \"ukuran\": \"M\", \"quantity\": 25 },\n      { \"id\": 3, \"warna\": \"Hitam\", \"ukuran\": \"L\", \"quantity\": 20 },\n      { \"id\": 4, \"warna\": \"Hitam\", \"ukuran\": \"XL\", \"quantity\": 15 },\n      { \"id\": 5, \"warna\": \"Putih\", \"ukuran\": \"S\", \"quantity\": 28 },\n      { \"id\": 6, \"warna\": \"Putih\", \"ukuran\": \"M\", \"quantity\": 10 }\n    ],\n    \"deskripsi\": \"Kaos polos berbahan 100% cotton combed 30s yang nyaman, adem, dan menyerap keringat dengan baik. Cocok untuk aktivitas sehari-hari maupun sebagai bahan sablon/custom.\"\n  }\n}",
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "name": "404 Not Found - Produk tidak ditemukan",
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"success\": false,\n  \"status_code\": 404,\n  \"message\": \"Produk dengan id 'prod_999' tidak ditemukan\",\n  \"data\": null\n}",
+              "_postman_previewlanguage": "json"
+            }
+          ]
+        },
+        {
+          "name": "Create Product",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nama_product\": \"Topi Baseball Unisex\",\n  \"harga_product\": 85000,\n  \"foto_product\": \"https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=500\",\n  \"variasi_product\": [\n    {\n      \"warna\": \"Hitam\",\n      \"ukuran\": \"One Size\",\n      \"quantity\": 50\n    },\n    {\n      \"warna\": \"Putih\",\n      \"ukuran\": \"One Size\",\n      \"quantity\": 30\n    },\n    {\n      \"warna\": \"Navy\",\n      \"ukuran\": \"One Size\",\n      \"quantity\": 25\n    }\n  ],\n  \"deskripsi\": \"Topi baseball casual unisex berbahan katun twill berkualitas tinggi. Tersedia dalam berbagai pilihan warna, cocok untuk melengkapi outfit sehari-hari.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/products",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "products"]
+            },
+            "description": "Menambahkan produk baru ke katalog. ID produk di-generate otomatis oleh server.\n\n**Field yang wajib diisi:**\n| Field | Tipe | Keterangan |\n|---|---|---|\n| `nama_product` | String | Nama produk |\n| `harga_product` | Number | Harga dalam Rupiah (tidak boleh negatif) |\n| `foto_product` | String | URL foto produk |\n| `variasi_product` | Array | Min. 1 item, tiap item wajib ada `warna`, `ukuran`, `quantity` |\n| `deskripsi` | String | Deskripsi produk |"
+          },
+          "response": [
+            {
+              "name": "201 Created - Produk berhasil ditambahkan",
+              "status": "Created",
+              "code": 201,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"success\": true,\n  \"status_code\": 201,\n  \"message\": \"Produk baru berhasil ditambahkan\",\n  \"data\": {\n    \"id\": \"prod_009\",\n    \"nama_product\": \"Topi Baseball Unisex\",\n    \"harga_product\": 85000,\n    \"foto_product\": \"https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=500\",\n    \"variasi_product\": [\n      { \"id\": 71, \"warna\": \"Hitam\", \"ukuran\": \"One Size\", \"quantity\": 50 },\n      { \"id\": 72, \"warna\": \"Putih\", \"ukuran\": \"One Size\", \"quantity\": 30 },\n      { \"id\": 73, \"warna\": \"Navy\", \"ukuran\": \"One Size\", \"quantity\": 25 }\n    ],\n    \"deskripsi\": \"Topi baseball casual unisex berbahan katun twill berkualitas tinggi. Tersedia dalam berbagai pilihan warna, cocok untuk melengkapi outfit sehari-hari.\"\n  }\n}",
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "name": "400 Bad Request - Field tidak lengkap",
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"success\": false,\n  \"status_code\": 400,\n  \"message\": \"Field 'harga_product' wajib diisi, harus berupa number, dan tidak boleh negatif.\",\n  \"data\": null\n}",
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "name": "400 Bad Request - Variasi tidak valid",
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"success\": false,\n  \"status_code\": 400,\n  \"message\": \"Setiap item 'variasi_product' harus memiliki field 'warna' (string), 'ukuran' (string), dan 'quantity' (number >= 0).\",\n  \"data\": null\n}",
+              "_postman_previewlanguage": "json"
+            }
+          ]
+        },
+        {
+          "name": "Update Product",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"harga_product\": 95000,\n  \"deskripsi\": \"Topi baseball casual unisex berbahan katun twill premium. Harga spesial promo akhir tahun.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/products/{{product_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "products", "{{product_id}}"]
+            },
+            "description": "Memperbarui data produk secara **parsial** — hanya field yang dikirim yang akan diupdate, field lain tetap.\n\n**Field yang bisa diupdate (semua opsional, minimal 1):**\n| Field | Tipe | Keterangan |\n|---|---|---|\n| `nama_product` | String | Nama produk |\n| `harga_product` | Number | Harga baru (tidak boleh negatif) |\n| `foto_product` | String | URL foto baru |\n| `variasi_product` | Array | Akan **mengganti** semua varian lama |\n| `deskripsi` | String | Deskripsi baru |\n\n> **Catatan:** `id` tidak bisa diubah melalui request body."
+          },
+          "response": [
+            {
+              "name": "200 OK - Produk berhasil diperbarui",
+              "status": "OK",
+              "code": 200,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"success\": true,\n  \"status_code\": 200,\n  \"message\": \"Produk berhasil diperbarui\",\n  \"data\": {\n    \"id\": \"prod_001\",\n    \"nama_product\": \"Kaos Polos Cotton Combed 30s\",\n    \"harga_product\": 95000,\n    \"foto_product\": \"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500\",\n    \"variasi_product\": [\n      { \"id\": 1, \"warna\": \"Hitam\", \"ukuran\": \"S\", \"quantity\": 30 },\n      { \"id\": 2, \"warna\": \"Hitam\", \"ukuran\": \"M\", \"quantity\": 25 }\n    ],\n    \"deskripsi\": \"Topi baseball casual unisex berbahan katun twill premium. Harga spesial promo akhir tahun.\"\n  }\n}",
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "name": "400 Bad Request - Body kosong",
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"success\": false,\n  \"status_code\": 400,\n  \"message\": \"Minimal satu field harus disertakan untuk melakukan update.\",\n  \"data\": null\n}",
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "name": "404 Not Found - Produk tidak ditemukan",
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"success\": false,\n  \"status_code\": 404,\n  \"message\": \"Produk dengan id 'prod_999' tidak ditemukan\",\n  \"data\": null\n}",
+              "_postman_previewlanguage": "json"
+            }
+          ]
+        },
+        {
+          "name": "Delete Product",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/products/{{product_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "products", "{{product_id}}"]
+            },
+            "description": "Menghapus produk dari katalog berdasarkan ID. Semua variasi produk terkait akan ikut terhapus secara otomatis (CASCADE).\n\n> ⚠️ **Operasi ini tidak dapat dibatalkan.**"
+          },
+          "response": [
+            {
+              "name": "200 OK - Produk berhasil dihapus",
+              "status": "OK",
+              "code": 200,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"success\": true,\n  \"status_code\": 200,\n  \"message\": \"Produk 'Kaos Polos Cotton Combed 30s' berhasil dihapus\",\n  \"data\": {\n    \"id\": \"prod_001\"\n  }\n}",
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "name": "404 Not Found - Produk tidak ditemukan",
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"success\": false,\n  \"status_code\": 404,\n  \"message\": \"Produk dengan id 'prod_999' tidak ditemukan\",\n  \"data\": null\n}",
+              "_postman_previewlanguage": "json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Health Check",
+      "description": "Endpoint untuk memastikan server berjalan",
+      "item": [
+        {
+          "name": "API Info",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/",
+              "host": ["{{base_url}}"],
+              "path": [""]
+            },
+            "description": "Menampilkan informasi dasar API dan daftar semua endpoint yang tersedia."
+          },
+          "response": [
+            {
+              "name": "200 OK - API is running",
+              "status": "OK",
+              "code": 200,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"E-Commerce Catalog Service API is running\",\n  \"version\": \"1.0.0\",\n  \"endpoints\": {\n    \"getAllProducts\": \"GET    /api/v1/products\",\n    \"getProductById\": \"GET    /api/v1/products/:id\",\n    \"createProduct\": \"POST   /api/v1/products\",\n    \"updateProduct\": \"PUT    /api/v1/products/:id\",\n    \"deleteProduct\": \"DELETE /api/v1/products/:id\"\n  }\n}",
+              "_postman_previewlanguage": "json"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

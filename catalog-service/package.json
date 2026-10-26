@@ -1,0 +1,19 @@
+{
+  "name": "e-commerce-catalog-service",
+  "version": "1.0.0",
+  "description": "E-Commerce Catalog Service REST API",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^18.0.8",
+    "express": "^4.18.2",
+    "mysql2": "^3.24.6"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
